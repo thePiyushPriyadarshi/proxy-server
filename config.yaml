@@ -1,0 +1,22 @@
+server:
+  listen: 3000
+  workers: 2
+  upstreams:
+    - id: jsonplaceholder
+      url: jsonplaceholder.typicode.com
+
+    - id: dummyjson
+      url: dummyjson.com
+
+  headers:
+    - key: x-forward-for
+      value: "$ip"
+
+  rules:
+    - path: /test
+      upstreams:
+        - dummyjson
+
+    - path: /
+      upstreams:
+        - jsonplaceholder
